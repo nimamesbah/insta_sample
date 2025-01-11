@@ -1,19 +1,4 @@
-<!DOCTYPE html>
-<html lang="en" dir="ltr">
-
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <script type="module" src="./js.js" defer></script>
-    <script type="module" src="./services.js"></script>
-    <link rel="stylesheet" href="output.css">
-
-</head>
-
-<body>
-    <div id="root" class="mx-auto max-w-[400px] h-screen bg-gray-200 overflow-y-auto ">
-        <div id="post" class="flex flex-col gap-1 w-full p-7">
+<div id="post" class="flex flex-col gap-1 w-full p-7">
             <div id="postHeader" class="flex justify-between items-center">
                 <div id="userInf" class="flex justify-between items-center gap-4">
                     <div id="avatar" class="rounded-full w-10 h-10 bg-black "></div>
@@ -79,9 +64,3 @@
             <div id="viewComments">view all comments</div>
 
         </div>
-
-    </div>
-
-</body>
-
-</html>
