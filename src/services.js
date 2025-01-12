@@ -22,3 +22,11 @@ export async function matchingUser(userId) {
     return result
 
 }
+export async function matchingComments(postId) {
+    const result = await fetch(`https://jsonplaceholder.typicode.com/comments/?postId=${postId}`)
+        .then(res=>res.json())
+        .then(json=>json)
+        
+        return result
+    
+}

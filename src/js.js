@@ -1,4 +1,4 @@
-import { getPosts,getUsers, matchingUser } from "./services.js";
+import { getPosts,getUsers, matchingComments, matchingUser } from "./services.js";
 const root = document.getElementById("root")
 
 async function renderTrigger(){
@@ -13,17 +13,32 @@ async function renderUsers(userId,postId) {
     document.querySelector(`#post${postId} > #footer > #userNameButt`).innerHTML=getId.username
     
 }
+async function renderComments(postId){
+    const getComment = await matchingComments(postId)
+
+    const template = getComment.map(comment => `<div id="commentItem${postId}" class="my-2 ">
+        <h1 class="inline-block">${comment.name}:</h1>
+        <span class="text-xs">${comment.body}</span>`).join("")
+
+        document.querySelector(`#post${postId} > #commentRoot`).innerHTML=template
+
+}
+
+
+
+
 
 
 function renderPost(posts){
    
     const template = posts.map(post => {
         renderUsers(post.userId,post.id)
-        return `<div id="post${post.id}" class="flex flex-col gap-1 w-full p-7">
+        renderComments(post.id)
+        return `<div id="post${post.id}" class=" relative flex flex-col gap-1 w-full p-7">
         <div id="postHeader" class="flex justify-between items-center">
             <div id="userInf" class="flex justify-between items-center gap-4">
                 <div id="avatar" class="rounded-full w-10 h-10 bg-black "></div>
-                <h1 id="userNameTop">mamad</h1>
+                <h1 id="userNameTop"></h1>
 
             </div>
             <svg width="30px" height="30px" viewBox="0 0 32 32" enable-background="new 0 0 32 32" id="Editable-line"
@@ -44,7 +59,7 @@ function renderPost(posts){
                     d="M12 6.00019C10.2006 3.90317 7.19377 3.2551 4.93923 5.17534C2.68468 7.09558 2.36727 10.3061 4.13778 12.5772C5.60984 14.4654 10.0648 18.4479 11.5249 19.7369C11.6882 19.8811 11.7699 19.9532 11.8652 19.9815C11.9483 20.0062 12.0393 20.0062 12.1225 19.9815C12.2178 19.9532 12.2994 19.8811 12.4628 19.7369C13.9229 18.4479 18.3778 14.4654 19.8499 12.5772C21.6204 10.3061 21.3417 7.07538 19.0484 5.17534C16.7551 3.2753 13.7994 3.90317 12 6.00019Z"
                     stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
             </svg>
-            <svg id="comment" width="30px" height="30px" viewBox="0 0 32 32" version="1.1"
+            <svg id="comment" onclick="commentBoxHandle(${post.id})" width="30px" height="30px" viewBox="0 0 32 32" version="1.1"
                 xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink"
                 xmlns:sketch="http://www.bohemiancoding.com/sketch/ns">
 
@@ -79,10 +94,11 @@ function renderPost(posts){
         </div>
         <div id="footer" class="flex gap-3">
 
-            <h1 id="userNameButt"> mamad </h1>
+            <h1 id="userNameButt"></h1>
             <span id="title" >${post.title}</span>
         </div>
         <div id="viewComments">view all comments</div>
+        <div id="commentRoot" class=" overflow-y-auto bg-slate-300 absolute border-t-2 rounded-lg p-4 w-full scale-y-0 h-1/2 origin-bottom duration-150 bottom-0 left-0 "></div>
 
     </div>`
 
@@ -91,3 +107,8 @@ function renderPost(posts){
     return root.innerHTML=template
     
 }
+ function commentBoxHandle(postId){  
+    let toggle=  document.querySelector(`#post${postId} > #commentRoot`).classList.toggle("scale-y-0")
+    return toggle
+}
+
